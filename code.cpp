@@ -49,18 +49,18 @@ private:
 public:
     NoahsArk() : monthsOnArk(0) {
         // Initializing the ark with 2 of each species, one male and one female
-        animals.push_back(Animal("cat", "female", 0));
-        animals.push_back(Animal("cat", "male", 0));
-        animals.push_back(Animal("dog", "female", 0));
-        animals.push_back(Animal("dog", "male", 0));
-        animals.push_back(Animal("goldfish", "female", 0));
-        animals.push_back(Animal("goldfish", "male", 0));
-        animals.push_back(Animal("shark", "female", 0));
-        animals.push_back(Animal("shark", "male", 0));
-        animals.push_back(Animal("eagle", "female", 0));
-        animals.push_back(Animal("eagle", "male", 0));
-        animals.push_back(Animal("parakeet", "female", 0));
-        animals.push_back(Animal("parakeet", "male", 0));
+        animals.emplace_back("cat", "female", 0);
+        animals.emplace_back("cat", "male", 0);
+        animals.emplace_back("dog", "female", 0);
+        animals.emplace_back("dog", "male", 0);
+        animals.emplace_back("goldfish", "female", 0);
+        animals.emplace_back("goldfish", "male", 0);
+        animals.emplace_back("shark", "female", 0);
+        animals.emplace_back("shark", "male", 0);
+        animals.emplace_back("eagle", "female", 0);
+        animals.emplace_back("eagle", "male", 0);
+        animals.emplace_back("parakeet", "female", 0);
+        animals.emplace_back("parakeet", "male", 0);
     }
 
     // Method to age all animals on the ark by one month
@@ -86,11 +86,11 @@ public:
             if (animal.getGender() == "female") {
                 string newGender = rand() % 2 == 0 ? "male" : "female"; // Randomly generate gender
                 if (animal.getSpecies() == "cat" && monthsOnArk % 12 == 0) {
-                    newAnimals.push_back(Animal("cat", newGender, 0));
+                    newAnimals.emplace_back("cat", newGender, 0);
                 } else if ((animal.getSpecies() == "goldfish" || animal.getSpecies() == "shark") && monthsOnArk % 6 == 0) {
-                    newAnimals.push_back(Animal(animal.getSpecies(), newGender, 0));
+                    newAnimals.emplace_back(animal.getSpecies(), newGender, 0);
                 } else if (animal.getSpecies() == "eagle" && monthsOnArk % 9 == 0) {
-                    newAnimals.push_back(Animal("eagle", newGender, 0));
+                    newAnimals.emplace_back("eagle", newGender, 0);
                 }
             }
         }
