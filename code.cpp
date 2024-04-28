@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <limits>
+#include <cstdlib>
 
 using namespace std;
 
@@ -63,8 +65,8 @@ public:
 
     // Method to age all animals on the ark by one month
     void ageAnimals() {
-        for (auto& animal : animals) {
-            animal.ageOneMonth();
+        for (vector<Animal>::iterator it = animals.begin(); it != animals.end(); ++it) {
+            it->ageOneMonth();
         }
         monthsOnArk++;
     }
@@ -78,17 +80,21 @@ public:
 
     // Method to simulate breeding based on months passed
     void breedAnimals() {
-        for (auto& animal : animals) {
+        vector<Animal> newAnimals;
+        for (vector<Animal>::iterator it = animals.begin(); it != animals.end(); ++it) {
+            Animal& animal = *it;
             if (animal.getGender() == "female") {
+                string newGender = rand() % 2 == 0 ? "male" : "female"; // Randomly generate gender
                 if (animal.getSpecies() == "cat" && monthsOnArk % 12 == 0) {
-                    animals.push_back(Animal("cat", "male", 0));
+                    newAnimals.push_back(Animal("cat", newGender, 0));
                 } else if ((animal.getSpecies() == "goldfish" || animal.getSpecies() == "shark") && monthsOnArk % 6 == 0) {
-                    animals.push_back(Animal(animal.getSpecies(), "male", 0));
+                    newAnimals.push_back(Animal(animal.getSpecies(), newGender, 0));
                 } else if (animal.getSpecies() == "eagle" && monthsOnArk % 9 == 0) {
-                    animals.push_back(Animal("eagle", "male", 0));
+                    newAnimals.push_back(Animal("eagle", newGender, 0));
                 }
             }
         }
+        animals.insert(animals.end(), newAnimals.begin(), newAnimals.end());
     }
 
     // Method to display menu and handle user input
@@ -100,6 +106,13 @@ public:
             cout << "2 - Check inventory" << endl;
             cout << "3 - Quit" << endl;
             cin >> choice;
+
+            if (cin.fail()) {
+                cin.clear(); // clear error state
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard 'bad' character(s)
+                cout << "Invalid choice. Please try again." << endl;
+                continue;
+            }
 
             switch (choice) {
                 case '1':
